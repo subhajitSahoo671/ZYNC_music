@@ -91,6 +91,10 @@ class PlaylistWidget extends StatelessWidget {
                             color: Colors.cyan
                                       .withValues(alpha: 150).withAlpha(150),
                             borderRadius: BorderRadius.circular(10),
+                             image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80"),
+                  ),
                            
                           ),
                           child: Image.network(songEntity.artUri.toString(),fit: BoxFit.cover,

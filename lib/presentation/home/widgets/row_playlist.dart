@@ -86,6 +86,10 @@ class RowPlaylist extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                        color: Colors.cyan
                                         .withValues(alpha: 150).withAlpha(150),
+                                         image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80"),
+                  ),
                       ),
                       child: Image.network(playlists[index].imageURL.toString(),fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {

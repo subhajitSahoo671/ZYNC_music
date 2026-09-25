@@ -180,186 +180,185 @@ class _HomePageState extends State<HomePage> {
                     elevation: 3,
                     borderRadius: .circular(10),
                      color: Colors.blueGrey,
-                     shadowColor: AppColors.gradient_1.withValues(alpha: 0.8),
+                     shadowColor: Colors.blueGrey.withValues(alpha: 0.8),
                     child: Container(
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.blueGrey,
+                        // color: Colors.blueGrey.shade600,
+                          gradient: LinearGradient(
+                                  colors: [Colors.blueGrey.shade600, Colors.blueGrey],
+                                  begin: AlignmentGeometry.topLeft,
+                                  end: AlignmentGeometry.bottomRight,
+                                ),
                         borderRadius: .circular(10)
                       ),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            // gradient: LinearGradient(
-                            //         colors: [AppColors.gradient_1.withValues(alpha: 0.8), AppColors.gradient_2.withValues(alpha: 0.8)],
-                            //         begin: AlignmentGeometry.topLeft,
-                            //         end: AlignmentGeometry.bottomRight,
-                            //       ),
-                          borderRadius: .circular(10)
-                        ),
-                        child: StreamBuilder<MediaItem?>(
-                          stream: widget.audioHandler.mediaItem,
-                          builder: (context, asyncSnapshot) {
-                            if (asyncSnapshot.data != null) {
-                              return InkWell(
-                                overlayColor: .all(Colors.transparent),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation, secondaryAnimation) {
-                                        return SongPlayerPage(
-                                          item: asyncSnapshot.data!,
-                                          audioHandler: widget.audioHandler,
-                                        );
-                                      },
-                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                        const begin = Offset(0.0, 1.0);
-                                        const end = Offset.zero;
-                                        const curve = Curves.easeInOut;
-
-                                        var tween = Tween(
-                                          begin: begin,
-                                          end: end,
-                                        ).chain(CurveTween(curve: curve));
-                                        var offsetAnimation = animation.drive(
-                                          tween,
-                                        );
-
-                                        return SlideTransition(
-                                          position: offsetAnimation,
-                                          child: child,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                                child: Row(
-                                  children: [
-                                    // pic
-                                    ClipRRect(
-                                       borderRadius: BorderRadius.circular(5),
-                                      child: Container(
-                                        height: 45,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Image.network(
-                                          asyncSnapshot.data!.artUri.toString(),
-                                          fit: .cover,
-                                           errorBuilder: (context, error, stackTrace) {
-                      return Image.network("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80",fit: BoxFit.cover);
-                    },
-                                        ),
+                      child: StreamBuilder<MediaItem?>(
+                        stream: widget.audioHandler.mediaItem,
+                        builder: (context, asyncSnapshot) {
+                          if (asyncSnapshot.data != null) {
+                            return InkWell(
+                              overlayColor: .all(Colors.transparent),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation, secondaryAnimation) {
+                                      return SongPlayerPage(
+                                        item: asyncSnapshot.data!,
+                                        audioHandler: widget.audioHandler,
+                                      );
+                                    },
+                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      const begin = Offset(0.0, 1.0);
+                                      const end = Offset.zero;
+                                      const curve = Curves.easeInOut;
+                    
+                                      var tween = Tween(
+                                        begin: begin,
+                                        end: end,
+                                      ).chain(CurveTween(curve: curve));
+                                      var offsetAnimation = animation.drive(
+                                        tween,
+                                      );
+                    
+                                      return SlideTransition(
+                                        position: offsetAnimation,
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  // pic
+                                  ClipRRect(
+                                     borderRadius: BorderRadius.circular(5),
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10), 
+                                        image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80"),
+                  ),
                                       ),
-                                    ),
-                              
-                                    //title
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 5,
-                                      child: Column(
-                                        crossAxisAlignment: .start,
-                                        children: [
-                                          Text(
-                                            asyncSnapshot.data!.title,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 13.5,
-                                              fontWeight: FontWeight.w600,
-                              
-                                              // color: Colors.white
-                                            ),
-                                          ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            asyncSnapshot.data!.artist!,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                              fontSize: 11.5,
-                                              fontWeight: FontWeight.w400,
-                                              // color: Colors.white
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-    
-                                    // play button
-                                    Expanded(
-                                      flex: 3,
-                                      child: StreamBuilder<PlaybackState>(
-                                        stream:
-                                            widget.audioHandler.playbackState.stream,
-                                        builder: (context, snapshot) {
-                                          bool playing =
-                                              snapshot.data?.playing ?? false;
-                                          // log("Playing state: $snapshot.data");
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                 onTap: () {
-                                                  widget.audioHandler
-                                                      .skipToPrevious();
-                                                },
-                                                child: Icon(
-                                                  size: 25,
-                                                  color: Colors.white,
-                                                  Icons.skip_previous_rounded,
-                                                ),
-                                              ),
-                                              // SizedBox(width: 10),
-                              
-                                              GestureDetector(
-                                                 onTap: () {
-                                                  if (playing) {
-                                                    widget.audioHandler.pause();
-                                                  } else {
-                                                    widget.audioHandler.play();
-                                                  }
-                                                },
-                                                child: Icon(
-                                                  size: 30,
-                                                  color: Colors.white,
-                                                  playing
-                                                      ? Icons.pause_rounded
-                                                      : Icons.play_arrow_rounded,
-                                                ),
-                                               
-                                              ),
-                                              // SizedBox(width: 10),
-                              
-                                              GestureDetector(
-                                                  onTap: () {
-                                                  widget.audioHandler.skipToNext();
-                                                },
-                                                child: Icon(
-                                                  size: 25,
-                                                  color: Colors.white,
-                                                  Icons.skip_next_rounded,
-                                                ),
-                                              
-                                              ),
-                                            ],
-                                          );
+                                      child: Image.network(
+                                        asyncSnapshot.data!.artUri.toString(),
+                                        fit: .cover,
+                                         errorBuilder: (context, error, stackTrace) {
+                    return Image.network("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80",fit: BoxFit.cover);
                                         },
                                       ),
                                     ),
-                                  ],
-                                ),
-                              );
-                            }
-                            return SizedBox.shrink();
-                          },
-                        ),
+                                  ),
+                            
+                                  //title
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    flex: 5,
+                                    child: Column(
+                                      crossAxisAlignment: .start,
+                                      children: [
+                                        Text(
+                                          asyncSnapshot.data!.title,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 13.5,
+                                            fontWeight: FontWeight.w600,
+                            
+                                            // color: Colors.white
+                                          ),
+                                        ),
+                                        SizedBox(height: 2),
+                                        Text(
+                                          asyncSnapshot.data!.artist!,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                            fontSize: 11.5,
+                                            fontWeight: FontWeight.w400,
+                                            // color: Colors.white
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                        
+                                  // play button
+                                  Expanded(
+                                    flex: 3,
+                                    child: StreamBuilder<PlaybackState>(
+                                      stream:
+                                          widget.audioHandler.playbackState.stream,
+                                      builder: (context, snapshot) {
+                                        bool playing =
+                                            snapshot.data?.playing ?? false;
+                                        // log("Playing state: $snapshot.data");
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                               onTap: () {
+                                                widget.audioHandler
+                                                    .skipToPrevious();
+                                              },
+                                              child: Icon(
+                                                size: 25,
+                                                color: Colors.white,
+                                                Icons.skip_previous_rounded,
+                                              ),
+                                            ),
+                                            // SizedBox(width: 10),
+                            
+                                            GestureDetector(
+                                               onTap: () {
+                                                if (playing) {
+                                                  widget.audioHandler.pause();
+                                                } else {
+                                                  widget.audioHandler.play();
+                                                }
+                                              },
+                                              child: Icon(
+                                                size: 30,
+                                                color: Colors.white,
+                                                playing
+                                                    ? Icons.pause_rounded
+                                                    : Icons.play_arrow_rounded,
+                                              ),
+                                             
+                                            ),
+                                            // SizedBox(width: 10),
+                            
+                                            GestureDetector(
+                                                onTap: () {
+                                                widget.audioHandler.skipToNext();
+                                              },
+                                              child: Icon(
+                                                size: 25,
+                                                color: Colors.white,
+                                                Icons.skip_next_rounded,
+                                              ),
+                                            
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          return SizedBox.shrink();
+                        },
                       ),
                     ),
                   ),
@@ -447,9 +446,16 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(songs.first.artUri.toString()),
+                    image: NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80"),
                   ),
                 ),
+                child: Image.network(
+                                        songs.first.artUri.toString(),
+                                        fit: .cover,
+                                         errorBuilder: (context, error, stackTrace) {
+                    return Image.network("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80",fit: BoxFit.cover);
+                                        },
+                                      ),
               ),
               SizedBox(width: 5),
               Expanded(
@@ -557,13 +563,19 @@ class _HomePageState extends State<HomePage> {
         child: Stack(
           children: [
             Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.bottomCenter, 
               child: Container(
                 transform: Matrix4.translationValues(0, -15, 0),
                 width: MediaQuery.of(context).size.width,
                 height: 110,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  // color: AppColors.primary,
+                    gradient: LinearGradient(
+              colors: [AppColors.primary, Color(0xff5A8FF0),Colors.blueAccent.withValues(alpha: 0.8)],
+              begin: AlignmentGeometry.topLeft,tileMode: TileMode.repeated,
+              stops: [0.0,0.5,1.0],
+              end: AlignmentGeometry.bottomRight,
+            ),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Padding(
@@ -607,8 +619,8 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: Alignment.bottomRight,
               child: Transform(
-                transform: Matrix4.translationValues(0, -15, 0),
-                child: Image.asset(AppImages.homeTopArtist, fit: BoxFit.cover),
+                transform: Matrix4.translationValues(-10, -15, 0),
+                child: Image.asset(AppImages.homeTopArtist, fit: BoxFit.cover,colorBlendMode: .dst,),
               ),
             ),
           ],

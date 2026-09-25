@@ -3,6 +3,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:zync_music/common/helpers/is_dark_mode.dart';
 import 'package:zync_music/common/widgets/favorite_button/favorite_button.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zync_music/core/configs/theme/app_colors.dart';
@@ -45,7 +46,8 @@ class SongPlayerPage extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios_new_rounded, size: 16),
         ),
-        backgroundColor: AppColors.primary.withValues(alpha: 0.8),
+        backgroundColor: context.isDarkMode ? Color(0xff6C6AF0).withAlpha( 20) : AppColors.primary.withValues(alpha: 0.8),
+        // backgroundColor: AppColors.gradient_1.withValues(alpha: 0.8),
         elevation: 0,
       ),
       body: _PlayerContent(item: item, audioHandler: audioHandler),
@@ -108,10 +110,12 @@ class _PlayerContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      bool isDarkMode = context.isDarkMode ? true : false;
     return Container(
           height: MediaQuery.sizeOf(context).height,
           width: MediaQuery.sizeOf(context).width,
-          color: AppColors.primary.withValues(alpha: 0.8),
+          // color: AppColors.primary.withValues(alpha: 0.8),
+          color: isDarkMode ? Color(0xff6C6AF0).withAlpha( 20)  : AppColors.primary.withValues(alpha: 0.8),
           child: StreamBuilder<MediaItem?>(
             stream: audioHandler.mediaItem,
             builder: (context, itemSnapshot) {
@@ -145,7 +149,7 @@ class _PlayerContent extends StatelessWidget {
                           _songCover(context, itemSnapshot.data!),
                           _loopingShuffling(context),
                           SizedBox(height: 15),
-                          _songDetails(itemSnapshot.data!),
+                          _songDetails(itemSnapshot.data!,context),
                           SizedBox(height: 40),
                           songTools(context, itemSnapshot.data!),
                           SizedBox(height: 40),
@@ -166,14 +170,22 @@ class _PlayerContent extends StatelessWidget {
   }
 
   Widget _songCover(BuildContext context, MediaItem item) {
-    return Container(
-      height: MediaQuery.of(context).size.width / 1.4,
-      width: MediaQuery.of(context).size.width / 1.4,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          image: NetworkImage(item.artUri.toString()),
-          fit: BoxFit.cover,
+    return  ClipRRect(
+      borderRadius:  BorderRadiusGeometry.circular(999),
+      child: Container(
+        height: MediaQuery.of(context).size.width / 1.4,
+        width: MediaQuery.of(context).size.width / 1.4,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Image.network(item.artUri.toString(),fit: .cover,
+        errorBuilder: (context, error, stackTrace) {
+                        return Image.network("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80",fit: BoxFit.cover);
+                      },
         ),
       ),
     );
@@ -222,14 +234,14 @@ class _PlayerContent extends StatelessWidget {
 
    
 
-  Widget _songDetails( MediaItem item) {
+  Widget _songDetails( MediaItem item, BuildContext context) {
     return Column(
       children: [
         Text(
           item.title,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold,color: AppColors.lightBackground),
         ),
         SizedBox(height: 10),
         Text(
@@ -237,7 +249,7 @@ class _PlayerContent extends StatelessWidget {
           maxLines: 1,
           item.artist ?? 'Unknown Artist',
           style: TextStyle(
-            color: Colors.pinkAccent.shade700,
+            color: context.isDarkMode ? AppColors. darkBackground : Colors.pinkAccent.shade700,
             fontSize: 12,
             fontWeight: FontWeight.w400,
           ),
@@ -247,6 +259,8 @@ class _PlayerContent extends StatelessWidget {
   }
 
   Widget songTools(BuildContext context,MediaItem itemSnapshot) {
+
+    var toolColor = context.isDarkMode ? AppColors. darkBackground.withAlpha(150) : Colors.pink.shade800;
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
       height: 40,
@@ -254,10 +268,10 @@ class _PlayerContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FavoriteButton(songEntity: itemSnapshot, color: Colors.pink.shade800, size: 30,),
+          FavoriteButton(songEntity: itemSnapshot, color: toolColor, size: 30,),
           VerticalDivider(
             width: 3,
-            color: Colors.pinkAccent.shade700,
+            color: toolColor,
             thickness: 2,
             indent: 10,
             radius: BorderRadius.circular(30),
@@ -274,7 +288,7 @@ class _PlayerContent extends StatelessWidget {
           ),
           VerticalDivider(
             width: 3,
-            color: Colors.pinkAccent.shade700,
+            color: toolColor,
             thickness: 2,
             indent: 10,
             radius: BorderRadius.circular(30),
@@ -289,7 +303,7 @@ class _PlayerContent extends StatelessWidget {
             },
             icon: FaIcon(
               FontAwesomeIcons.shareNodes,
-              color: Colors.pink.shade800,
+              color: toolColor,
               size: 25,
             ),
           ),
@@ -353,6 +367,7 @@ class _PlayerContent extends StatelessWidget {
       stream: audioHandler.playbackState.stream,
       builder: (context, snapshot) {
         bool playing = snapshot.data?.playing ?? false;
+        bool isDarkMode = context.isDarkMode ? true : false;
        // log("Playing state: $snapshot.data");
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -363,7 +378,7 @@ class _PlayerContent extends StatelessWidget {
               topRight: Radius.circular(30),
             ),
             gradient: LinearGradient(
-              colors: [AppColors.gradient_1.withValues(alpha: 0.8), AppColors.gradient_2.withValues(alpha: 0.8)],
+              colors: isDarkMode ? [AppColors.darkBackground.withValues(alpha: 0.4),AppColors.darkBackground.withValues(alpha: 0.8)] : [AppColors.gradient_1.withValues(alpha: 0.8), AppColors.gradient_2.withValues(alpha: 0.8)],
               begin: AlignmentGeometry.topLeft,
               end: AlignmentGeometry.bottomRight,
             ),

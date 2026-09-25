@@ -55,7 +55,7 @@ class SongModel {
 
   SongModel.fromJson(Map<String, dynamic> data) {
     title = data['title'];
-    artist = data['artists'] ?? data["genre"] ?? "unknown";
+    artist = data['artists']?.first["name"] ?? data['artists'] ?? data["genre"] ?? "unknown";
     duration = data['duration'];
     releaseDate = data['created_at'] ?? data["updated_at"];
     imageURL = data['artwork']?["480x480"] ?? "https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80";

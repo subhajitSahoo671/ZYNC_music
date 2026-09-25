@@ -10,13 +10,13 @@ class AppImages {
       '${basePath}pinkun3$format';
 
   static const String introBG =
-      '${basePath}get_started$format';
+      '${basePath}get_started99$format';
 
   static const String modeBG =
       '${basePath}mode_bg$format';
 
   static const String authBG =
-      '${basePath}pink_girl1$format';
+      '${basePath}authBGImage$format';
 
   static const String homeTopArtist =
       '${basePath}homeArtist$format';

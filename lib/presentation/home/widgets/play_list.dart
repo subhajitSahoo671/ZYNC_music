@@ -92,7 +92,11 @@ class PlayList extends StatelessWidget {
                       height: MediaQuery.widthOf(context)/1.8,
                       decoration: BoxDecoration(
                         borderRadius: .circular(10),
-                        color: Colors.blueGrey.withAlpha(150)
+                        color: Colors.blueGrey.withAlpha(150),
+                         image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80"),
+                  ),
                       ),
                       child: Image.network(playlistData!.imageURL,fit: .cover,
                       errorBuilder: (context, error, stackTrace) {

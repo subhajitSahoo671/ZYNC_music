@@ -111,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocProvider(
       create: (context) => ProfileInfoCubit()..getUser(),
       child: Container(
-        height: MediaQuery.sizeOf(context).height / 4.2,
+        height: MediaQuery.sizeOf(context).width / 2.4,
         width: double.infinity,
         decoration: BoxDecoration(
           color: context.isDarkMode
@@ -129,24 +129,33 @@ class _ProfilePageState extends State<ProfilePage> {
             }
 
             if (state is ProfileInfoLoaded) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              return Row(
+                // mainAxisAlignment: .center,
+                crossAxisAlignment: .center,
                 children: [
-                  CircleAvatar(
+                  SizedBox(width: MediaQuery.sizeOf(context).width * 0.15,),
+                   CircleAvatar(
                     radius: 47,
                     backgroundImage: NetworkImage(state.userEntity.imageURL!),
                   ),
-                  SizedBox(height: 15),
-                  Text(
-                    state.userEntity.email!,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  SizedBox(width: 15),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: .start,
+                    children: [
+                     
+                     
+                      Text(
+                        state.userEntity.fullName!,
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                       Text(
+                        state.userEntity.email!,
+                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    state.userEntity.fullName!,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
                 ],
               );
             }
