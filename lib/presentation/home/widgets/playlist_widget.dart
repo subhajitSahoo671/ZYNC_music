@@ -49,13 +49,7 @@ class PlaylistWidget extends StatelessWidget {
             overlayColor: .all(Colors.transparent),
             onTap: () async{
              
-             if (isBottomSheet == false) {
-               await audioHandlerInitSongs();
-             }
-
-             if (itemSnapshot.data!.id != songEntity.id) {
-                  audioHandler.skipToQueueItem(index);
-                }
+            
              
              if (isBottomSheet == false) {
                 Navigator.push(
@@ -64,6 +58,7 @@ class PlaylistWidget extends StatelessWidget {
                   traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
 
                   builder: (context) {
+                    // print("songEntity$songEntity");
                     return SongPlayerPage(
                       item: songEntity,
                      
@@ -73,6 +68,14 @@ class PlaylistWidget extends StatelessWidget {
                 ),
               );
              }
+
+              if (isBottomSheet == false) {
+               await audioHandlerInitSongs();
+             }
+
+             if (itemSnapshot.data!.id != songEntity.id) {
+                  audioHandler.skipToQueueItem(index);
+                }
              
             },
             child: SizedBox(

@@ -52,7 +52,7 @@ class NewsSongs extends StatelessWidget {
   }
 
   Widget _songs() {
-    //log(songs[0].title);
+    print("dddd${songs.length}");
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: songs.length,
@@ -75,12 +75,12 @@ class NewsSongs extends StatelessWidget {
               //     audioHandler.skipToQueueItem(index);
               //   }
 
-             await  audioHandler.initSongsIfNeeded(songs: songs).then((_) {
+               audioHandler.initSongsIfNeeded(songs: songs).then((_) {
                 if (snapshot.data!.id != songs[index].id) {
                   audioHandler.skipToQueueItem(index);
                 }
               });
-                print("dddd ${Uri.tryParse(songs[index].artUri.toString())}");
+                // print("dddd ${Uri.tryParse(songs[index].artUri.toString())}");
             Navigator.push(
               context,
               MaterialPageRoute(

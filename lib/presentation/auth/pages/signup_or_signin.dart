@@ -55,7 +55,7 @@ class SignupOrSignin extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "Spotify is a proprietary Swedish audio streaming and media services provider ",
+                      "ZYNC is a proprietary Swedish audio streaming and media services provider ",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,

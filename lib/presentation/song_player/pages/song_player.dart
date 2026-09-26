@@ -61,8 +61,8 @@ class _PlayerContent extends StatelessWidget {
 
   const _PlayerContent({required this.item, required this.audioHandler});
 
-  Future<void> _shareSong(BuildContext context, MediaItem item) async {
-    final songUrl = item.extras!['songURL'];
+  Future<void> _shareSong(BuildContext context, MediaItem mediaItem) async {
+    final songUrl = mediaItem.extras!['songURL'];
     final uri = Uri.tryParse(songUrl);
 
     if (uri == null || !uri.hasScheme) {
@@ -73,11 +73,11 @@ class _PlayerContent extends StatelessWidget {
     }
 
     final text =
-        'Check out "${item.title}" on my ZYNC music app! Listen here: $songUrl';
+        'Check out "${mediaItem.title}" on my ZYNC music app! Listen here: $songUrl';
     await SharePlus.instance.share(
       ShareParams(
         text: text,
-        title: item.title,
+        title: mediaItem.title,
         // uri: uri,
       ),
     );
@@ -111,6 +111,7 @@ class _PlayerContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       bool isDarkMode = context.isDarkMode ? true : false;
+      MediaItem mediaItem ;
     return Container(
           height: MediaQuery.sizeOf(context).height,
           width: MediaQuery.sizeOf(context).width,
@@ -120,10 +121,13 @@ class _PlayerContent extends StatelessWidget {
             stream: audioHandler.mediaItem,
             builder: (context, itemSnapshot) {
 
-              if (itemSnapshot.data == null) {
-                return Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
+              if (itemSnapshot.data != null) {
+                mediaItem = itemSnapshot.data!;
+               
+              }
+
+              else {
+                               mediaItem = item;
               }
               return Stack(
                 children: [
@@ -146,14 +150,14 @@ class _PlayerContent extends StatelessWidget {
                       child: Column(
                         children: [
                           //SizedBox(height: 40),
-                          _songCover(context, itemSnapshot.data!),
+                          _songCover(context, mediaItem),
                           _loopingShuffling(context),
                           SizedBox(height: 15),
-                          _songDetails(itemSnapshot.data!,context),
+                          _songDetails(mediaItem,context),
                           SizedBox(height: 40),
-                          songTools(context, itemSnapshot.data!),
+                          songTools(context, mediaItem),
                           SizedBox(height: 40),
-                          _songSlider(context, itemSnapshot.data!), 
+                          _songSlider(context, mediaItem,itemSnapshot.data), 
                         ],
                       ),
                     ),
@@ -169,7 +173,7 @@ class _PlayerContent extends StatelessWidget {
         );
   }
 
-  Widget _songCover(BuildContext context, MediaItem item) {
+  Widget _songCover(BuildContext context, MediaItem mediaItem) {
     return  ClipRRect(
       borderRadius:  BorderRadiusGeometry.circular(999),
       child: Container(
@@ -182,7 +186,7 @@ class _PlayerContent extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Image.network(item.artUri.toString(),fit: .cover,
+        child: Image.network(mediaItem.artUri.toString(),fit: .cover,
         errorBuilder: (context, error, stackTrace) {
                         return Image.network("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80",fit: BoxFit.cover);
                       },
@@ -234,11 +238,11 @@ class _PlayerContent extends StatelessWidget {
 
    
 
-  Widget _songDetails( MediaItem item, BuildContext context) {
+  Widget _songDetails( MediaItem mediaItem, BuildContext context) {
     return Column(
       children: [
         Text(
-          item.title,
+          mediaItem.title,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold,color: AppColors.lightBackground),
@@ -247,7 +251,7 @@ class _PlayerContent extends StatelessWidget {
         Text(
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          item.artist ?? 'Unknown Artist',
+          mediaItem.artist ?? 'Unknown Artist',
           style: TextStyle(
             color: context.isDarkMode ? AppColors. darkBackground : Colors.pinkAccent.shade700,
             fontSize: 12,
@@ -258,7 +262,7 @@ class _PlayerContent extends StatelessWidget {
     );
   }
 
-  Widget songTools(BuildContext context,MediaItem itemSnapshot) {
+  Widget songTools(BuildContext context,MediaItem mediaItem) {
 
     var toolColor = context.isDarkMode ? AppColors. darkBackground.withAlpha(150) : Colors.pink.shade800;
     return SizedBox(
@@ -268,7 +272,7 @@ class _PlayerContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FavoriteButton(songEntity: itemSnapshot, color: toolColor, size: 30,),
+          FavoriteButton(songEntity: mediaItem, color: toolColor, size: 30,),
           VerticalDivider(
             width: 3,
             color: toolColor,
@@ -295,10 +299,10 @@ class _PlayerContent extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              // print("wwe ${itemSnapshot.extras!["songURL"]}");
+              // print("wwe ${mediaItem.extras!["songURL"]}");
               _shareSong(
                 context,
-                itemSnapshot
+                mediaItem
               );
             },
             icon: FaIcon(
@@ -312,7 +316,7 @@ class _PlayerContent extends StatelessWidget {
     );
   }
 
-  Widget _songSlider(BuildContext context, MediaItem itemSnapshot) {
+  Widget _songSlider(BuildContext context, MediaItem mediaItem,MediaItem? itemSnapshot) {
 
         return StreamBuilder<Duration>(
           stream: AudioService.position,
@@ -320,8 +324,8 @@ class _PlayerContent extends StatelessWidget {
             final position = positionSnap.data ?? Duration.zero;     
           // log(positionSnap.data.toString());
            
-            final total = itemSnapshot.duration ?? Duration.zero;
-            // print("jjjjj${itemSnapshot.duration!.inMinutes}");
+            final total = mediaItem.duration ?? Duration.zero;
+            // print("jjjjj${mediaItem.duration!.inMinutes}");
             // Avoid division by zero when duration is zero.
             final maxSeconds = total.inSeconds > 0 ? total.inSeconds.toDouble() : 1.0;
             final value = position.inSeconds.toDouble().clamp(0.0, maxSeconds);
@@ -330,7 +334,7 @@ class _PlayerContent extends StatelessWidget {
               children: [
                 Slider(
                   activeColor: Color(0xff5A8FF0).withValues(alpha: 100),
-                  value: value,
+                  value: itemSnapshot == null ? 0 : value,
                   min: 0.0,
                   max: maxSeconds,
                  // divisions: value.toInt() > 0 ? value.toInt() : null,
@@ -378,7 +382,7 @@ class _PlayerContent extends StatelessWidget {
               topRight: Radius.circular(30),
             ),
             gradient: LinearGradient(
-              colors: isDarkMode ? [AppColors.darkBackground.withValues(alpha: 0.4),AppColors.darkBackground.withValues(alpha: 0.8)] : [AppColors.gradient_1.withValues(alpha: 0.8), AppColors.gradient_2.withValues(alpha: 0.8)],
+              colors: isDarkMode ? [AppColors.darkBackground.withValues(alpha: 0.9),AppColors.darkBackground.withValues(alpha: 0.7),] : [AppColors.gradient_1.withValues(alpha: 0.8), AppColors.gradient_2.withValues(alpha: 0.8)],
               begin: AlignmentGeometry.topLeft,
               end: AlignmentGeometry.bottomRight,
             ),

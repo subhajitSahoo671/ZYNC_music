@@ -46,6 +46,8 @@ class MyAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler{
       return;
     }
 
+      //  queue.add(freshSongs);
+      mediaItem.add(null);
     await initSongs(songs: songs);
     _lastQueueKey = nextQueueKey;
   }

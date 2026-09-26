@@ -64,7 +64,14 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Container(
         // height: MediaQuery.sizeOf(context).height,
-        color: AppColors.primary.withValues(alpha: 0.8),
+        decoration: BoxDecoration(
+        // color: AppColors.primary.withValues(alpha: 0.8),
+            gradient: LinearGradient(
+              colors: [AppColors.primary.withValues(alpha: 0.8), AppColors.primary.withValues(alpha: 0.6)],
+              begin: AlignmentGeometry.topLeft,
+              end: AlignmentGeometry.bottomRight,
+            ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           // mainAxisAlignment: MainAxisAlignment.start,
