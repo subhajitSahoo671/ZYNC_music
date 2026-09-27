@@ -23,7 +23,7 @@ abstract class SongFirebaseServise {
   Future<Either> getTrendingsInMonth();
   Future<Either> getPopularAlbumOfWeek();
   Future<Either> addOrRemoveFavoriteSongs(MediaItem songEntity);
-  Future<bool> isFavoriteSong(String songId);
+  // Future<bool> isFavoriteSong(String songId);
   Future<Either> getUserFavoriteSongs();
 }
 
@@ -201,13 +201,13 @@ class SongFirebaseServiseImpl extends SongFirebaseServise {
       var user = firebaseAuth.currentUser;
       String uId = user!.uid;
 
-      // print("jjjdjdj");
 
       QuerySnapshot favoriteSongs = await firebaseFirestore
           .collection("Users")
           .doc(uId)
           .collection("Favorites")
           .where("songId", isEqualTo: songEntity.id)
+          .limit(1)
           .get();
 
       if (favoriteSongs.docs.isNotEmpty) {
@@ -245,31 +245,31 @@ class SongFirebaseServiseImpl extends SongFirebaseServise {
     }
   }
 
-  @override
-  Future<bool> isFavoriteSong(String songId) async {
-    try {
-      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  // @override
+  // Future<bool> isFavoriteSong(String songId) async {
+  //   try {
+  //     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  //     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-      var user = firebaseAuth.currentUser;
-      String uId = user!.uid;
+  //     var user = firebaseAuth.currentUser;
+  //     String uId = user!.uid;
 
-      QuerySnapshot favoriteSongs = await firebaseFirestore
-          .collection("Users")
-          .doc(uId)
-          .collection("Favorites")
-          .where("songId", isEqualTo: songId)
-          .get();
+  //     QuerySnapshot favoriteSongs = await firebaseFirestore
+  //         .collection("Users")
+  //         .doc(uId)
+  //         .collection("Favorites")
+  //         .where("songId", isEqualTo: songId)
+  //         .get();
 
-      if (favoriteSongs.docs.isNotEmpty) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
+  //     if (favoriteSongs.docs.isNotEmpty) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
   
   @override
   Future<Either> getUserFavoriteSongs() async{

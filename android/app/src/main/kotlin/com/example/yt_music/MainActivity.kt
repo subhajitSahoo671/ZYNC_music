@@ -1,4 +1,4 @@
-package com.example.zync_music
+package com.subhajit.zync_music
 
 import io.flutter.embedding.android.FlutterActivity
 

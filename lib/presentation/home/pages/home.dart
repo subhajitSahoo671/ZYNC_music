@@ -58,7 +58,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("fffff${widget.songs}");
     return Scaffold(
       appBar: BasicAppBar(
         title: AppLogoWidget(width: 120, height: 45),

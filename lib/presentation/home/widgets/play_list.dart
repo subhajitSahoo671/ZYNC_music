@@ -150,7 +150,6 @@ class PlayList extends StatelessWidget {
   }
 
   Widget _songs(List<MediaItem> songs) {
-    //log(songs.toString());
     return ListView.separated(
       physics: AlwaysScrollableScrollPhysics(),
       itemCount: songs.length,

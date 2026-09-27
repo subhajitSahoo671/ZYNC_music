@@ -42,7 +42,7 @@ class PlaylistWidget extends StatelessWidget {
     return StreamBuilder<MediaItem?>(
       stream: audioHandler.mediaItem,
       builder: (context, itemSnapshot) {
-        if (itemSnapshot.data != null) {
+        // if (itemSnapshot.data != null) {
           // log(itemSnapshot.data.toString());
           return InkWell(
             splashColor: Colors.transparent,
@@ -73,7 +73,7 @@ class PlaylistWidget extends StatelessWidget {
                await audioHandlerInitSongs();
              }
 
-             if (itemSnapshot.data!.id != songEntity.id) {
+             if (itemSnapshot.data?.id != songEntity.id) {
                   audioHandler.skipToQueueItem(index);
                 }
              
@@ -116,7 +116,7 @@ class PlaylistWidget extends StatelessWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  color: itemSnapshot.data!.id == songEntity.id
+                                  color: itemSnapshot.data?.id == songEntity.id
                                       ? activeColor ??
                                             Colors.purpleAccent.shade700
                                                 .withGreen(110)
@@ -151,7 +151,7 @@ class PlaylistWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        itemSnapshot.data!.id == songEntity.id
+                        itemSnapshot.data?.id == songEntity.id
                             ? audioHandler.playbackState.value.playing
                                   ? Lottie.asset(
                                       "assets/lotties/equalizer.json",
@@ -202,7 +202,7 @@ class PlaylistWidget extends StatelessWidget {
                                 ),
                               ),
                         //SizedBox(width: 50),
-                        itemSnapshot.data!.id == songEntity.id
+                        itemSnapshot.data?.id == songEntity.id
                             ? IconButton.filledTonal(
                                 // padding: EdgeInsets.all(-5),
                                 onPressed: () {
@@ -240,7 +240,7 @@ class PlaylistWidget extends StatelessWidget {
               ),
             ),
           );
-        }
+        
         return SizedBox.shrink();
       },
     );

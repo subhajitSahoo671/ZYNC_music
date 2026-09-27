@@ -22,7 +22,6 @@ class NewsSongs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Pinku : $songs");
     return Column(
       mainAxisSize: .min,
       children: [
@@ -52,7 +51,7 @@ class NewsSongs extends StatelessWidget {
   }
 
   Widget _songs() {
-    print("dddd${songs.length}");
+    // print("dddd${songs.length}");
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: songs.length,

@@ -72,9 +72,9 @@ Future<void> initializeDependencies() async {
     AddOrRemoveFavoriteSongsUseCase()
    );
 
-   sl.registerSingleton<IsFavoriteSongUseCase>(
-    IsFavoriteSongUseCase()
-    );
+  //  sl.registerSingleton<IsFavoriteSongUseCase>(
+  //   IsFavoriteSongUseCase()
+  //   );
     
     sl.registerSingleton<GetUserUseCase>(
     GetUserUseCase()

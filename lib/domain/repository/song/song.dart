@@ -15,7 +15,7 @@ abstract class SongRepository {
 
   Future<Either> addOrRemoveFavoriteSongs(MediaItem songEntity);
 
-  Future<bool> isFavoriteSong(String songId);
+  // Future<bool> isFavoriteSong(String songId);
 
   Future<Either> getUserFavoriteSongs();
 
