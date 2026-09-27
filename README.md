@@ -6,6 +6,8 @@ A new Flutter project.
 
 This project is a starting point for a Flutter application.
 
+[![Download APK](https://shields.io)](https://github.com/subhajitSahoo671/ZYNC_music/releases/download/ZYNC-v1.0.0/app-release.apk)
+
 A few resources to get you started if this is your first Flutter project:
 
 - [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
