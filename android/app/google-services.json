@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:506278642822:android:67a8187147ff0b4d543d07",
         "android_client_info": {
-          "package_name": "com.subhajit.zync_music"
+          "package_name": "com.zync.music"
         }
       },
       "oauth_client": [],
@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:506278642822:android:dc8f343733876874543d07",
         "android_client_info": {
-          "package_name": "com.subhajit.zync_music"
+          "package_name": "com.zync.music"
         }
       },
       "oauth_client": [],

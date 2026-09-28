@@ -62,20 +62,20 @@ class NewsSongs extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return StreamBuilder<MediaItem?>(stream: audioHandler.mediaItem,
          builder: (context, snapshot) {
-          
-          if (snapshot.data != null) {
-            // log(  "hy${snapshot.data!.artUri}");
+        
+          // if (snapshot.data != null) {
+            // log(  "hy${snapshot.data?.artUri}");
             // var newIndex = songs.length - index - 1;
           return  GestureDetector(
                  onTap: () async{
 
               //     await audioHandler.initSongsIfNeeded(songs: songs);
-              // if (snapshot.data!.id != songs[index].id) {
+              // if (snapshot.data?.id != songs[index].id) {
               //     audioHandler.skipToQueueItem(index);
               //   }
 
                audioHandler.initSongsIfNeeded(songs: songs).then((_) {
-                if (snapshot.data!.id != songs[index].id) {
+                if (snapshot.data?.id != songs[index].id) {
                   audioHandler.skipToQueueItem(index);
                 }
               });
@@ -90,7 +90,7 @@ class NewsSongs extends StatelessWidget {
             );
           },
           child: SizedBox(
-            // color: snapshot.data!.id == songs[newIndex].id ? AppColors.greyText.withValues(alpha: 50) : Colors.transparent,
+            // color: snapshot.data?.id == songs[newIndex].id ? AppColors.greyText.withValues(alpha: 50) : Colors.transparent,
             width: 135,
             height: 240,
             child: Column(
@@ -111,7 +111,7 @@ class NewsSongs extends StatelessWidget {
                      
                     ),
                   ),
-                  child: snapshot.data!.id == songs[index].id 
+                  child: snapshot.data?.id == songs[index].id 
                   ? Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
@@ -148,7 +148,7 @@ class NewsSongs extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: snapshot.data!.id == songs[index].id ? Colors.purpleAccent.shade700.withGreen(
+                    color: snapshot.data?.id == songs[index].id ? Colors.purpleAccent.shade700.withGreen(
                                           110,
                                         ) : null,
                     // color: Colors.white
@@ -170,7 +170,6 @@ class NewsSongs extends StatelessWidget {
             ),
           ),
         );
-          }
           return SizedBox.shrink();
         },);
       },

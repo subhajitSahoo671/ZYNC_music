@@ -55,7 +55,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                         //   if (widget.function != null) {
                         //     widget.function!();
                         //   }
-      print("isFavorite$isFavorite");
+      // print("isFavorite$isFavorite");
 
                         },
                           icon: Icon( 
@@ -95,14 +95,14 @@ class _FavoriteButtonState extends State<FavoriteButton> {
 
       if (!mounted) return;
 
-      print("isFavorite$isFavorite");
+      // print("isFavorite$isFavorite");
 
     result.fold((l) {
       print(l);
     }, (r) {
-      print("isFavorite$isFavorite$r");
+      // print("isFavorite$isFavorite$r");
        isFavorite ? favoriteSongsCubit.removeSong(widget.songEntity): favoriteSongsCubit.addSong(widget.songEntity);
-      print("isFavorite$isFavorite$r");
+      // print("isFavorite$isFavorite$r");
     
     },);
                      
