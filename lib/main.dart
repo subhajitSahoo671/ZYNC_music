@@ -54,7 +54,7 @@ Future<void> main() async {
       androidNotificationOngoing: true,
       //androidStopForegroundOnPause: false,
       // Use a monochrome drawable icon for notifications (white-only)
-      // androidNotificationIcon: 'drawable/ic_notification',
+      androidNotificationIcon: 'drawable/ic_launcher_monochrome',
     ),
   );
 

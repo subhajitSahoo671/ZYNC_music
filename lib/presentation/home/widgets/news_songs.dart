@@ -103,7 +103,12 @@ class NewsSongs extends StatelessWidget {
                     // color: Colors.grey.withValues(alpha: 0.2),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: songs[index].artUri.toString().split(".").first.contains("https://cn")  ? NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80") : NetworkImage(songs[index].artUri.toString()),
+                      image: Uri.tryParse(songs[index].artUri.toString()) == null 
+                      ? NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80")
+                      : songs[index].artUri.toString().split(".").first.contains("https://cn")  
+                      ? NetworkImage("https://img.magnific.com/premium-psd/music-note-3d-icon-with-musical-symbol-made-with-translucent-png-trendy-neon-color-shape_1020495-522146.jpg?semt=ais_hybrid&w=740&q=80") 
+                      : NetworkImage(songs[index].artUri.toString()) ,
+                     
                     ),
                   ),
                   child: snapshot.data!.id == songs[index].id 
